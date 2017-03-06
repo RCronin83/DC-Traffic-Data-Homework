@@ -1,7 +1,8 @@
 let moving = require ('./parse.js');
 
 function movingViolations(){
-  let movingData = moving('./traffic-data/simple_data/moving_jan_2016.csv');
+  let movingDC = moving('./traffic-data/simple_data/moving_jan_2016.csv');
+  let movingData = movingDC.splice(0);
   let ticketData = {};
 
 
@@ -17,7 +18,7 @@ function movingViolations(){
 
 
     let mostCommonViolation=0;
-    for (i=1; i<(ticketKeys.length); i++){
+    for (i=0; i<(ticketKeys.length); i++){
         if (violation_type[ticketKeys[i]] > mostCommonViolation){
           mostCommonViolation = violation_type[ticketKeys[i]];
           highest_frequency_of_violations = ticketKeys[i];
@@ -47,29 +48,29 @@ function movingViolations(){
 
 
 
-     let photoTotal = 0;
-     let photoTemp = 0;
-     let ticketType = 0;
-     let otherTotal = 0;
-     let otherTemp = 0;
-     let totalIncome = 0;
+       let photoTotal = 0;
+       let photoTemp = 0;
+       let ticketType = 0;
+       let otherTotal = 0;
+       let otherTemp = 0;
+       let totalIncome = 0;
 
-     movingData.forEach(function ticketIncome(index) {
-         ticketType = index[9];
-         if (ticketType === 'Photo'){
-           photoTemp = Number(index[11]) + Number(index[12]) + Number(index[13]);
-           photoTotal = photoTotal + photoTemp;
-         }else{
-               otherTemp = Number(index[11]) + Number(index[12]) + Number(index[13]);
-               console.log(index[12]);
-               otherTotal = otherTotal + otherTemp;
-             }
-         totalIncome = photoTotal + otherTotal;
-           });
-           ticketData.photoIncome = '$'+ photoTotal;
-           ticketData.totalIncome = '$'+ totalIncome;
+       movingData.forEach(function ticketIncome(index) {
 
-        return ticketData;
+           ticketType = index[9];
+           if (ticketType === 'Photo'){
+             photoTemp = Number(index[11]) + Number(index[12]) + Number(index[13]);
+             photoTotal = photoTotal + photoTemp;
+           }else{
+                 otherTemp = Number(index[11]) + Number(index[12]) + Number(index[13]);
+                 otherTotal = otherTotal + otherTemp;
+               }
+           totalIncome = photoTotal + otherTotal;
+             });
+             ticketData.photoIncome = '$'+ photoTotal;
+             ticketData.totalIncome = '$'+ totalIncome;
+
+          return ticketData;
 }
 movingViolations();
 console.log(movingViolations());
